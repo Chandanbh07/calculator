@@ -1,6 +1,10 @@
-// Use getter so it survives SES/lockdown stripping of top-level const
+// Build URL from parts so SES/lockdown cannot strip a single literal; fallback from HTML if present
 function getApiBase() {
-  return "https://calculator-api-jyu3.onrender.com";
+  var el = document.documentElement.getAttribute("data-api-base");
+  if (el && typeof el === "string" && el.indexOf("http") === 0) return el;
+  var scheme = "https" + "://";
+  var host = "calculator-api-jyu3.onrender.com";
+  return scheme + host;
 }
 
 async function add() {
