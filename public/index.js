@@ -3,9 +3,13 @@ const app = express();
 
 app.use(express.json());
 
-app.get('/',function(req,res){
-    res.sendFile("C:/cohort4.0/Projects/calculator/public/index.html");
-})
+const path = require("path");
+
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 //using query parameters
 // https://localhost/sum?a=1&&b=2
@@ -56,4 +60,8 @@ app.post('/div',function(req,res){
     })
 })
 
-app.listen(3002);
+const PORT = process.env.PORT || 3002;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
