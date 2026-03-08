@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        body{
+            box-sizing: border-box;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            margin: 20px;
+            min-height: 100vh;
+        }
+
+        h1{
+            padding: 10px;
+        }
+
+        .container{
+            padding: 20px;
+            border: 1px solid #010101;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        input{
+            border: 0.5px solid #665355;
+            border-radius: 6px;
+            min-height: 20px;
+            min-width: auto;
+            padding: 5px;
+            margin-bottom: 20px;
+        }
+
+        .box{
+            flex: 1;
+            display: flex;
+        }
+
+        .btn{
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            gap: 10px;
+        }
+
+        button{
+            background-color: #010101;
+            color: white;
+            min-width: 50%;
+            border-radius: 8px;
+            min-height: 25px;
+            border: none;
+        }
+
+        button:hover{
+            cursor: pointer;
+            opacity: 0.9;
+        }
+
+        #response{
+            flex: 1;
+            height: 20px;
+            padding: 20px;
+        }
+    </style>
+    <script>
+
+        //query parameter
+        async function add(){
+            const A = document.getElementById("first_num").value;
+            const B = document.getElementById("second_num").value;
+
+            const res = await fetch(`http://localhost:3002/sum?a=${A}&b=${B}`);
+            const json = await res.json();
+
+            document.getElementById("response").innerHTML = json.ans;
+        }
+
+        //path parameter
+        async function subs() {
+            const a = document.getElementById("first_num").value;
+            const b = document.getElementById("second_num").value;
+
+            const res = await fetch(`http://localhost:3002/sub/${a}/${b}`);
+            const json = await res.json();
+
+            document.getElementById("response").innerHTML = json.ans;
+        }
+
+        //body parameter
+        async function mult() {
+            const a = document.getElementById("first_num").value;
+            const b = document.getElementById("second_num").value;
+
+            const res = await fetch(`http://localhost:3002/mul/`, {
+                method : "POST",
+                headers:{
+                    "Content-Type" : "application/json"
+                },
+                body : JSON.stringify({
+                    a: a,
+                    b: b
+                })
+            })
+            const json = await res.json()
+
+            document.getElementById("response").innerHTML = json.ans;
+        }
+
+        async function divi() {
+            const a = document.getElementById("first_num").value;
+            const b = document.getElementById("second_num").value;
+
+            const res = await fetch(`http://localhost:3002/div`,{
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify({
+                    a: a,
+                    b: b
+                })
+            });
+            const json = await res.json();
+            document.getElementById("response").innerHTML = json.ans;
+        }
+    </script>
+</head>
+<body>
+    <h1>
+        C
+    </h1>
+
+    <div class="container">
+     <div class="box">
+        <div class="ip">
+            <input type="text" id="first_num">
+            <input type="text" id="second_num">
+        </div>
+        <div class="btn">
+         <button onclick="add()">Sum</button>
+         <button onclick="subs()">sub</button>
+         <button onclick="mult()">mul</button>
+         <button onclick="divi()">div</button>
+        </div>
+     </div>
+     
+     <span>
+            results:
+     </span>
+     <div id="response"> 
+        
+     </div>
+    </div>
+</body>
+</html>
