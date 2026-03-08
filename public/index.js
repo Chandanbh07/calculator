@@ -1,10 +1,13 @@
-const API = "https://calculator-api-jyu3.onrender.com";
+// Use getter so it survives SES/lockdown stripping of top-level const
+function getApiBase() {
+  return "https://calculator-api-jyu3.onrender.com";
+}
 
 async function add() {
   const a = document.getElementById("first_num").value;
   const b = document.getElementById("second_num").value;
 
-  const res = await fetch(`${API}/sum?a=${a}&b=${b}`);
+  const res = await fetch(`${getApiBase()}/sum?a=${a}&b=${b}`);
   const data = await res.json();
 
   document.getElementById("response").innerHTML = data.ans;
@@ -14,7 +17,7 @@ async function subs() {
   const a = document.getElementById("first_num").value;
   const b = document.getElementById("second_num").value;
 
-  const res = await fetch(`${API}/sub/${a}/${b}`);
+  const res = await fetch(`${getApiBase()}/sub/${a}/${b}`);
   const data = await res.json();
 
   document.getElementById("response").innerHTML = data.ans;
@@ -24,7 +27,7 @@ async function mult() {
   const a = document.getElementById("first_num").value;
   const b = document.getElementById("second_num").value;
 
-  const res = await fetch(`${API}/mul`, {
+  const res = await fetch(`${getApiBase()}/mul`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -41,7 +44,7 @@ async function divi() {
   const a = document.getElementById("first_num").value;
   const b = document.getElementById("second_num").value;
 
-  const res = await fetch(`${API}/div`, {
+  const res = await fetch(`${getApiBase()}/div`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
