@@ -1,67 +1,59 @@
-const express = require('express');
-const app = express();
+const API = "https://calculator-api-jyu3.onrender.com";
 
-app.use(express.json());
+async function add() {
+  const a = document.getElementById("first_num").value;
+  const b = document.getElementById("second_num").value;
 
-const path = require("path");
+  const res = await fetch(`${API}/sum?a=${a}&b=${b}`);
+  const data = await res.json();
 
-app.use(express.static(path.join(__dirname, "public")));
+  document.getElementById("response").innerHTML = data.ans;
+}
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
+async function subs() {
+  const a = document.getElementById("first_num").value;
+  const b = document.getElementById("second_num").value;
 
-//using query parameters
-// https://localhost/sum?a=1&&b=2
-app.get('/sum',function(req,res){
-    const a = parseInt(req.query.a);
-    const b = parseInt(req.query.b);
-    
-    const sum = a+b;
+  const res = await fetch(`${API}/sub/${a}/${b}`);
+  const data = await res.json();
 
-    res.json({
-        ans : sum
-    });
-})
+  document.getElementById("response").innerHTML = data.ans;
+}
 
-//using path parametes
-// https://localhost/sub/5/2
-app.get('/sub/:a/:b',function(req,res){
-    const a = parseInt(req.params.a);
-    const b = parseInt(req.params.b);
+async function mult() {
+  const a = document.getElementById("first_num").value;
+  const b = document.getElementById("second_num").value;
 
-    res.json({
-        ans: a-b
-    });
-});
+  const res = await fetch(`${API}/mul`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ a, b })
+  });
 
-app.post('/mul',function(req,res){
-     const a = parseInt(req.body.a);
-     const b = parseInt(req.body.b);
+  const data = await res.json();
 
-     const prod = a*b;
-     res.json({
-        ans: prod
-     });
-});
+  document.getElementById("response").innerHTML = data.ans;
+}
 
-app.post('/div',function(req,res){
-    const a = parseInt(req.body.a);
-    const b = parseInt(req.body.b);
+async function divi() {
+  const a = document.getElementById("first_num").value;
+  const b = document.getElementById("second_num").value;
 
-    if(b === 0){
-        return res.status(400).json({
-            error:"Division by zero not allowed"
-        });
-    }
+  const res = await fetch(`${API}/div`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ a, b })
+  });
 
-    res.json({
-        ans: a/b
-    })
-})
+  const data = await res.json();
 
-const PORT = process.env.PORT || 3002;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+  if (data.error) {
+    document.getElementById("response").innerHTML = data.error;
+  } else {
+    document.getElementById("response").innerHTML = data.ans;
+  }
+}

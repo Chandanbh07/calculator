@@ -1,164 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator</title>
-    <style>
-        *{
-            margin: 0;
-            padding: 0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculator</title>
 
-        body{
-            box-sizing: border-box;
-            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-            margin: 20px;
-            min-height: 100vh;
-        }
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
 
-        h1{
-            padding: 10px;
-        }
+body{
+font-family:Arial, Helvetica, sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+background:#f4f4f4;
+}
 
-        .container{
-            padding: 20px;
-            border: 1px solid #010101;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.container{
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+width:350px;
+}
 
-        input{
-            border: 0.5px solid #665355;
-            border-radius: 6px;
-            min-height: 20px;
-            min-width: auto;
-            padding: 5px;
-            margin-bottom: 20px;
-        }
+h1{
+text-align:center;
+margin-bottom:20px;
+}
 
-        .box{
-            flex: 1;
-            display: flex;
-        }
+input{
+width:100%;
+padding:10px;
+margin-bottom:10px;
+border-radius:6px;
+border:1px solid #ccc;
+}
 
-        .btn{
-            display: flex;
-            flex-wrap: wrap;
-            width: 100%;
-            gap: 10px;
-        }
+.btn{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+margin-top:10px;
+}
 
-        button{
-            background-color: #010101;
-            color: white;
-            min-width: 50%;
-            border-radius: 8px;
-            min-height: 25px;
-            border: none;
-        }
+button{
+flex:1;
+padding:10px;
+border:none;
+border-radius:6px;
+background:black;
+color:white;
+cursor:pointer;
+}
 
-        button:hover{
-            cursor: pointer;
-            opacity: 0.9;
-        }
+button:hover{
+opacity:0.9;
+}
 
-        #response{
-            flex: 1;
-            height: 20px;
-            padding: 20px;
-        }
-    </style>
-    <script>
+#response{
+margin-top:15px;
+font-weight:bold;
+text-align:center;
+}
+</style>
 
-        //query parameter
-        async function add(){
-            const A = document.getElementById("first_num").value;
-            const B = document.getElementById("second_num").value;
-
-            const res = await fetch(`http://localhost:3002/sum?a=${A}&b=${B}`);
-            const json = await res.json();
-
-            document.getElementById("response").innerHTML = json.ans;
-        }
-
-        //path parameter
-        async function subs() {
-            const a = document.getElementById("first_num").value;
-            const b = document.getElementById("second_num").value;
-
-            const res = await fetch(`http://localhost:3002/sub/${a}/${b}`);
-            const json = await res.json();
-
-            document.getElementById("response").innerHTML = json.ans;
-        }
-
-        //body parameter
-        async function mult() {
-            const a = document.getElementById("first_num").value;
-            const b = document.getElementById("second_num").value;
-
-            const res = await fetch(`http://localhost:3002/mul/`, {
-                method : "POST",
-                headers:{
-                    "Content-Type" : "application/json"
-                },
-                body : JSON.stringify({
-                    a: a,
-                    b: b
-                })
-            })
-            const json = await res.json()
-
-            document.getElementById("response").innerHTML = json.ans;
-        }
-
-        async function divi() {
-            const a = document.getElementById("first_num").value;
-            const b = document.getElementById("second_num").value;
-
-            const res = await fetch(`http://localhost:3002/div`,{
-                method: "POST",
-                headers: {
-                    "Content-Type" : "application/json"
-                },
-                body: JSON.stringify({
-                    a: a,
-                    b: b
-                })
-            });
-            const json = await res.json();
-            document.getElementById("response").innerHTML = json.ans;
-        }
-    </script>
 </head>
-<body>
-    <h1>
-        C
-    </h1>
 
-    <div class="container">
-     <div class="box">
-        <div class="ip">
-            <input type="text" id="first_num">
-            <input type="text" id="second_num">
-        </div>
-        <div class="btn">
-         <button onclick="add()">Sum</button>
-         <button onclick="subs()">sub</button>
-         <button onclick="mult()">mul</button>
-         <button onclick="divi()">div</button>
-        </div>
-     </div>
-     
-     <span>
-            results:
-     </span>
-     <div id="response"> 
-        
-     </div>
-    </div>
+<body>
+
+<div class="container">
+
+<h1>Calculator</h1>
+
+<input type="number" id="first_num" placeholder="Enter first number">
+<input type="number" id="second_num" placeholder="Enter second number">
+
+<div class="btn">
+<button onclick="add()">Sum</button>
+<button onclick="subs()">Sub</button>
+<button onclick="mult()">Mul</button>
+<button onclick="divi()">Div</button>
+</div>
+
+<div id="response">Result will appear here</div>
+
+</div>
+
+<script src="index.js"></script>
+
 </body>
 </html>
